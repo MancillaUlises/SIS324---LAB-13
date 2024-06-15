@@ -1,9 +1,12 @@
 import { Medic } from "../models/Medic.js";
+import { Specialty } from "../models/Specialty.js";
+import { User } from "../models/User.js"
 
+//ver medicos
 export async function getMedics(req, res) {
   try {
     const medics = await Medic.findAll({
-      atributes: ["id", "name", "speciality", "phone", "image"],
+      atributes: ["id", "name", "specialtyId", "phone", "userId", "image", "services", "certifications", "state"],
     });
     res.json(medics);
   } catch (error) {
@@ -13,18 +16,34 @@ export async function getMedics(req, res) {
   }
 }
 
+// Crear medicos
 export async function createMedic(req, res) {
-  const { name, speciality, phone, image } = req.body;
+  const { name, specialtyId, phone, userId , image, services, certifications, state } = req.body;
   try {
+    // Asegúrate de que la especialidad existe
+    const specialty = await Specialty.findByPk(specialtyId);
+    if (!specialty) {
+      return res.status(404).json({ error: 'Specialty not found' });
+    }
+    // Asegúrate de que el usuario exista
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
     let newMedic = await Medic.create(
       {
         name,
-        speciality,
+        specialtyId,
         phone,
-        image
+        userId,
+        image,
+        services,
+        certifications,
+        state,
       },
       {
-        fields: ["name", "speciality", "phone", "image"],
+        fields: ["name", "specialtyId", "phone", "userId" , "image", "services", "certifications", "state"],
       }
     );
     return res.json(newMedic);
@@ -33,9 +52,9 @@ export async function createMedic(req, res) {
       message: error.message,
     });
   }
-  res.json("received");
 }
 
+//ver medicos con el Id
 export async function getMedic(req, res) {
   const { id } = req.params;
   try {
@@ -52,15 +71,21 @@ export async function getMedic(req, res) {
   }
 }
 
+//actualizar medicos
 export const updateMedic = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, speciality, phone } = req.body;
+    const { name, specialtyId, phone, userId, image, services, certifications, state } = req.body;
 
     const medic = await Medic.findByPk(id);
     medic.name = name;
-    medic.speciality = speciality;
+    medic.specialtyId = specialtyId;
     medic.phone = phone;
+    medic.userId = userId;
+    medic.image = image;
+    medic.services = services;
+    medic.certifications = certifications;
+    medic.state = state;
     await medic.save();
 
     res.json(medic);
@@ -69,6 +94,7 @@ export const updateMedic = async (req, res) => {
   }
 };
 
+//eliminar medicos
 export async function deleteMedic(req, res) {
   const { id } = req.params;
   try {
@@ -77,12 +103,14 @@ export async function deleteMedic(req, res) {
         id,
       },
     });
-    return res.sendStatus(204);
+    
+    res.json({ message: "Medic deleted" });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 }
 
+//ver medicos por especialdiad ------- cambiar por el contenido de la tabla specialty
 export async function getMedicOffices(req, res) {
   const { id } = req.params;
   try {

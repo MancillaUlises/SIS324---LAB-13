@@ -1,28 +1,25 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
 
-export const Ticket = sequelize.define("tickets", {
+export const Patient = sequelize.define("patients", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
-  code: {
+  name: {
     type: DataTypes.STRING,
   },
-  queueId: {
-    type: DataTypes.INTEGER,
-  },
-  medicId: {
-    type: DataTypes.INTEGER,
-  },
-  emissionDate: {
+  birthDate: {
     type: DataTypes.DATE,
   },
-  statusId: {
-    type: DataTypes.INTEGER,
+  email: {
+    type: DataTypes.STRING,
   },
-  consultingRoomId: {
+  phone: {
+    type: DataTypes.STRING,
+  },
+  ticketId: {
     type: DataTypes.INTEGER,
   },
 }, {

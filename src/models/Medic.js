@@ -12,15 +12,14 @@ export const Medic = sequelize.define(
     name: {
       type: DataTypes.STRING,
     },
-    speciality: {
-      type: DataTypes.STRING,
+    specialtyId: {
+      type: DataTypes.INTEGER,
     },
     phone: {
       type: DataTypes.STRING,
     },
-    email: {
-        type: DataTypes.STRING,
-//        default: "xxx.gmail.com"
+    userId: {
+        type: DataTypes.INTEGER,
       },
     image: {
         type: DataTypes.STRING,
@@ -43,9 +42,3 @@ export const Medic = sequelize.define(
     {  timestamps: false,
       }
 );
-
-// Medic.hasMany(Task, {
-//  foreinkey: "medicId",
-//   sourceKey: "id",
-// });
-// Office.belongsTo(Medic, { foreinkey: "medicId", targetId: "id" });

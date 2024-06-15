@@ -1,15 +1,21 @@
 import { Router } from "express";
 import {
-  getTickets,
-  createTickets,
-  getTicketsPacients,
-} from "../controllers/ticket.controller.js"
+    getTickets,
+    createTicket,
+    updateTicket,
+    getTicket,
+    deleteTicket,
+    getTicketsPatients,
+    } from "../controllers/ticket.controller.js";
 
-const router = Router();
+    const router = Router();
 
 // Routes
-router.post("/", createTickets);
+router.post("/", createTicket);
 router.get("/", getTickets);
-router.get("/:id/pacients", getTicketsPacients);
+router.put("/:id", updateTicket);
+router.delete("/:id", deleteTicket);
+router.get("/:id", getTicket);
+router.get("/:id/pacients", getTicketsPatients);
 
 export default router;
