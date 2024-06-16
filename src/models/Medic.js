@@ -19,26 +19,27 @@ export const Medic = sequelize.define(
       type: DataTypes.STRING,
     },
     userId: {
-        type: DataTypes.INTEGER,
-      },
-    image: {
-        type: DataTypes.STRING,
-        default :""
-      },
-    services: {
-        type: DataTypes.STRING,
-        default :""
-      },
-  
-     certifications: {
-        type: DataTypes.STRING,
-        default :""
-      },
-     state: {
-        type: DataTypes.STRING,
-        default :"activo"
-      }
+      type: DataTypes.INTEGER,
     },
-    {  timestamps: false,
-      }
+    image: {
+      type: DataTypes.STRING,
+      default: ""
+    },
+    services: {
+      type: DataTypes.STRING,
+      default: ""
+    },
+
+    certifications: {
+      type: DataTypes.STRING,
+      default: ""
+    },
+    state: {
+      type: DataTypes.STRING,
+      default: "activo"
+    }
+  },
+  {
+    timestamps: false,
+  }
 );

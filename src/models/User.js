@@ -24,6 +24,6 @@ export const User = sequelize.define("users", {
         type: DataTypes.STRING,
         allowNull: false
     }
-    }, {
+}, {
     timestamps: false,
-    });
+});

@@ -1,4 +1,5 @@
 import { User } from "../models/User.js";
+import { Op } from 'sequelize';
 
 // Ver usuarios
 export async function getUsers(req, res) {
@@ -68,6 +69,30 @@ export async function deleteUser(req, res) {
     });
     
     res.json({ message: "User deleted" });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+}
+
+export async function getUserByUsername(req, res) {
+  const { username } = req.query;
+  try {
+    const user = await User.findOne({
+      where: {
+        username: {
+          [Op.like]: `%${username}%`
+        }
+      },
+      attributes: ["id", "fullname", "username", "role"] // Excluir el password por razones de seguridad
+    });
+
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
   } catch (error) {
     res.status(500).json({
       message: error.message,
