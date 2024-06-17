@@ -1,7 +1,6 @@
 import { ConsultingRoom } from "../models/ConsultingRoom.js";
 import { Specialty } from "../models/Specialty.js";
 import { Medic } from "../models/Medic.js";
-
 //ver consultorios
 export async function getConsultingRooms(req, res) {
   try {
@@ -15,6 +14,7 @@ export async function getConsultingRooms(req, res) {
     });
   }
 }
+//import { Specialty } from '../models/Specialty.js';
 
 // Crear consultorios
 export async function createConsultingRoom(req, res) {
@@ -29,7 +29,7 @@ export async function createConsultingRoom(req, res) {
     const specialty = await Specialty.findByPk(specialtyId);
     const medic = await Medic.findByPk(medicId)
     if (!specialty && !medic) {
-      return res.status(404).json({ error: 'Medic not found' });
+      return res.status(404).json({ error: 'Specialty not found' });
     }
 
     let newCosultingRoom = await ConsultingRoom.create(
@@ -67,7 +67,6 @@ export async function getConsultingRoom(req, res) {
     });
   }
 }
-
 //actualizar consultorios
 export const updateConsultingRoom = async (req, res) => {
   try {
@@ -86,7 +85,6 @@ export const updateConsultingRoom = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
-
 //eliminar consultorios
 export async function deleteConsultingRoom(req, res) {
   const { id } = req.params;
@@ -96,7 +94,7 @@ export async function deleteConsultingRoom(req, res) {
         id,
       },
     });
-    res.json({ message: "ConsultingRoom deleted" });
+    return res.sendStatus(204);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

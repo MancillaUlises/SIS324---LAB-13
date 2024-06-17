@@ -77,7 +77,7 @@ export async function deleteStatus(req, res) {
         id,
       },
     });
-    res.json({ message: "Status deleted" });
+    return res.sendStatus(204);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

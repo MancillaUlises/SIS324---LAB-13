@@ -1,10 +1,9 @@
 import { Patient } from "../models/Patient.js";
-
 //Ver pacientes
 export async function getPatients(req, res) {
     try {
         const patients = await Patient.findAll({
-            attributes: ["id", "name", "birthDate", "email", "phone", "ticketId"],
+            attributes: ["id", "name", "birthDate", "email", "phone","ticketId"],
         });
         res.json(patients);
     } catch (error) {
@@ -13,21 +12,20 @@ export async function getPatients(req, res) {
         });
     }
 }
-
 //Crear pacientes
 export async function createPatient(req, res) {
     const { name, birthDate, email, phone, ticketId } = req.body;
     try {
         let newPatient = await Patient.create(
             {
-                name,
-                birthDate,
-                email,
-                phone,
-                ticketId
+                 name, 
+                 birthDate, 
+                 email, 
+                 phone,
+                 ticketId
             },
             {
-                fields: ["name", "birthDate", "email", "phone", "ticketId"],
+                fields: [ "name", "birthDate", "email", "phone","ticketId"],
             }
         );
         return res.json(newPatient);
@@ -38,7 +36,6 @@ export async function createPatient(req, res) {
     }
     res.json("received");
 }
-
 //ver pacientes con el id
 export async function getPatient(req, res) {
     const { id } = req.params;
@@ -55,7 +52,6 @@ export async function getPatient(req, res) {
         });
     }
 }
-
 //Actualizar pacientes
 export async function updatePatient(req, res) {
     try {
@@ -74,7 +70,6 @@ export async function updatePatient(req, res) {
         res.status(500).json({ message: error.message });
     }
 }
-
 //Eliminar pacientes
 export async function deletePatient(req, res) {
     const { id } = req.params;
@@ -84,7 +79,7 @@ export async function deletePatient(req, res) {
                 id,
             },
         });
-        res.json({ message: "Patient deleted" });
+        return res.sendStatus(204);
     } catch (error) {
         return res.status(500).json({ message: error.message });
     }

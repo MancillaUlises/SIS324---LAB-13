@@ -4,12 +4,11 @@ import { Queue } from "../models/Queue.js";//para las vistas
 import { Medic } from "../models/Medic.js";//para el medico
 import { Status } from "../models/Status.js";//para llamar cambio de estado
 import { ConsultingRoom } from "../models/ConsultingRoom.js";//registrar el consultorio
-
 // Ver tickets
 export async function getTickets(req, res) {
     try {
         const tickets = await Ticket.findAll({
-            attributes: ["id", "code", "queueId", "medicId", "emissionDate", "statusId", "consultingRoomId"],
+            attributes: ["id", "code","queueId","medicId","emissionDate","statusId","consultingRoomId"],
         });
         res.json(tickets);
     } catch (error) {
@@ -18,10 +17,9 @@ export async function getTickets(req, res) {
         });
     }
 }
-
 //Crear tickets
 export async function createTicket(req, res) {
-    const { code, queueId, medicId, emissionDate, statusId, consultingRoomId } = req.body;
+    const { code,queueId,medicId,emissionDate,statusId,consultingRoomId } = req.body;
     try {
         let newTicket = await Ticket.create(
             {
@@ -33,7 +31,7 @@ export async function createTicket(req, res) {
                 consultingRoomId
             },
             {
-                fields: ["code", "queueId", "medicId", "emissionDate", "statusId", "consultingRoomId"],
+                fields: ["code","queueId","medicId","emissionDate","statusId","consultingRoomId"],
             }
         );
         return res.json(newTicket);
@@ -44,61 +42,57 @@ export async function createTicket(req, res) {
     }
     res.json("received");
 }
-
-//Ver tickets con el Id
+//ver tickets con el id
 export async function getTicket(req, res) {
     const { id } = req.params;
     try {
-        const tickets = await Ticket.findOne({
-            where: {
-                id,
-            },
-        });
-        res.json(tickets);
+      const tickets = await Ticket.findOne({
+        where: {
+          id,
+        },
+      });
+      res.json(tickets);
     } catch (error) {
-        res.status(500).json({
-            message: error.message,
-        });
+      res.status(500).json({
+        message: error.message,
+      });
     }
-}
-
+  }
 //Actualizar ticket
 export const updateTicket = async (req, res) => {
     try {
-        const { id } = req.params;
-        const { code, queueId, medicId, emissionDate, statusId, consultingRoomId } = req.body;
-
-        const tickets = await Ticket.findByPk(id);
-        tickets.code = code;
-        tickets.queueId = queueId;
-        tickets.medicId = medicId;
-        tickets.emissionDate = emissionDate;
-        tickets.status = statusId;
-        tickets.consultingRoomId = consultingRoomId;
-        await tickets.save();
-
-        res.json(tickets);
+      const { id } = req.params;
+      const { code,queueId,medicId,emissionDate,statusId,consultingRoomId } = req.body;
+  
+      const tickets = await Ticket.findByPk(id);
+      tickets.code = code;
+      tickets.queueId = queueId;
+      tickets.medicId = medicId;
+      tickets.emissionDate = emissionDate;
+      tickets.status = statusId;
+      tickets.consultingRoomId = consultingRoomId;
+      await tickets.save();
+  
+      res.json(tickets);
     } catch (error) {
-        return res.status(500).json({ message: error.message });
+      return res.status(500).json({ message: error.message });
     }
-};
-
+  };
 //Eliminar ticket
-export async function deleteTicket(req, res) {
+  export async function deleteTicket(req, res) {
     const { id } = req.params;
     try {
-        await Ticket.destroy({
-            where: {
-                id,
-            },
-        });
-        res.json({ message: "Ticket deleted" });
+      await Ticket.destroy({
+        where: {
+          id,
+        },
+      });
+      return res.sendStatus(204);
     } catch (error) {
-        return res.status(500).json({ message: error.message });
+      return res.status(500).json({ message: error.message });
     }
-}
-
-////
+  }
+  ////
 export async function getTicketsPatients(req, res) {
     try {
         const { id } = req.params;

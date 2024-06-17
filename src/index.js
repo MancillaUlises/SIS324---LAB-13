@@ -2,7 +2,13 @@ import app from './app.js'
 import {sequelize} from './database/database.js'
 import './models/Medic.js'
 import './models/Patient.js'
+import './models/ConsultingRoom.js'
+import './models/Queue.js'
+import './models/Specialty.js'
+import './models/Status.js'
 import './models/Ticket.js'
+import './models/associations.js'
+import './models/User.js'
 
 async function main(){
     try{

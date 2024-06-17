@@ -38,7 +38,6 @@ export async function createUser(req, res) {
   }
   res.json("received");
 }
-
 //actualizar usuarios
 export const updateUser = async (req, res) => {
   try {
@@ -57,7 +56,6 @@ export const updateUser = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
-
 //eliminar usuarios
 export async function deleteUser(req, res) {
   const { id } = req.params;

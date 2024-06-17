@@ -7,10 +7,10 @@ export const Queue = sequelize.define("queues", {
     primaryKey: true,
     autoIncrement: true,
   },
-  medicId: {
+  specialtyId: {
     type: DataTypes.INTEGER,
   },
-  specialtyId: {
+  medicId: {
     type: DataTypes.INTEGER,
   },
   ticketCount: {

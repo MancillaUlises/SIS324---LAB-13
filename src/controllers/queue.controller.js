@@ -1,7 +1,6 @@
 import { Queue } from "../models/Queue.js";
 import { Specialty } from "../models/Specialty.js";
 import { Medic } from "../models/Medic.js";
-
 //ver colas
 export async function getQueues(req, res) {
   try {
@@ -16,6 +15,7 @@ export async function getQueues(req, res) {
   }
 }
 
+
 // Crear cola
 export async function createQueue(req, res) {
   const { specialtyId, medicId, ticketCount } = req.body;
@@ -25,11 +25,11 @@ export async function createQueue(req, res) {
       return res.status(400).json({ error: 'specialtyId and medicId is required' });
     }
 
-    // Asegúrate de que la especialidad y el medico existan
+    // Asegúrate de que la especialidad existe
     const specialty = await Specialty.findByPk(specialtyId);
     const queue = await Medic.findByPk(medicId)
     if (!specialty && !queue) {
-      return res.status(404).json({ error: 'Medic not found' });
+      return res.status(404).json({ error: 'Specialty not found' });
     }
 
     let newQueue = await Queue.create(
@@ -66,8 +66,7 @@ export async function getQueue(req, res) {
     });
   }
 }
-
-//actualizar cola
+//actualizar medicos
 export const updateQueue = async (req, res) => {
   try {
     const { id } = req.params;
@@ -84,7 +83,6 @@ export const updateQueue = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
-
 //eliminar cola
 export async function deleteQueue(req, res) {
   const { id } = req.params;
@@ -94,12 +92,11 @@ export async function deleteQueue(req, res) {
         id,
       },
     });
-    res.json({ message: "Queue deleted" });
+    return res.sendStatus(204);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 }
-
 //ver cola por especialdiad ------- y
 export async function getQueueSpecialty(req, res) {
   const { id } = req.params;

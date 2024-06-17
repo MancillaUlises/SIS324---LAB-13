@@ -77,8 +77,7 @@ export async function deleteSpecialty(req, res) {
         id,
       },
     });
-
-    res.json({message: "Specialty deleted"})
+    return res.sendSpecialty(204);
   } catch (error) {
     return res.speciality(500).json({ message: error.message });
   }

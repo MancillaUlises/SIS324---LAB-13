@@ -4,7 +4,7 @@ export const sequelize = new Sequelize({
     dialect: "sqlite",
     storage: 'sequelize.sqlite',
   });
-
+  
 // export const sequelize = new Sequelize(
 //  "projectsdb",SIS324,
 //  "postgres",postgres,
