@@ -7,6 +7,9 @@ export const Queue = sequelize.define("queues", {
     primaryKey: true,
     autoIncrement: true,
   },
+  name: {
+    type: DataTypes.STRING,
+  },
   specialtyId: {
     type: DataTypes.INTEGER,
   },

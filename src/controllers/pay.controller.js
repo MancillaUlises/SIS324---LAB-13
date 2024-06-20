@@ -82,5 +82,28 @@ export async function deletePay(req, res) {
         return res.status(500).json({ message: error.message });
     }
 }
+//ver pagos de un periodo determinado
+import { Op } from 'sequelize';
+//import Pay from './models/Pay'; // Ajusta la ruta según tu estructura de proyecto
 
+// Ver pagos de un periodo determinado
+export async function getPayPeriod(req, res) {
+    const { startDate, endDate,id } = req.params;
+
+    try {
+        const pay = await Pay.findAll({
+            where: {
+                patientId:id,
+                paymentDate: {
+                    [Op.between]: [startDate, endDate],
+                },
+            },
+        });
+        res.json(pay);
+    } catch (error) {
+        res.status(500).json({
+            message: error.message,
+        });
+    }
+}
 

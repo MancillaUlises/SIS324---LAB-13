@@ -5,7 +5,18 @@ import { Medic } from "../models/Medic.js";
 export async function getQueues(req, res) {
   try {
     const queue = await Queue.findAll({
-      atributes: ["id", "specialtyId", "medicId", "ticketCount"],
+      atributes: ["id","name", "specialtyId", "medicId", "ticketCount"],
+      include: [{
+        model: Specialty,
+        attributes: ['name'], // Solo incluye el campo 'name' de la tabla Specialty
+        as: 'specialty',
+    },
+    {
+      model: Medic,
+      attributes: ['name'], //  de la tabla medic
+      as: 'medic',
+    }
+  ]
     });
     res.json(queue);
   } catch (error) {
@@ -18,7 +29,7 @@ export async function getQueues(req, res) {
 
 // Crear cola
 export async function createQueue(req, res) {
-  const { specialtyId, medicId, ticketCount } = req.body;
+  const { name,specialtyId, medicId, ticketCount } = req.body;
   try {
     // Verificar si specialtyId se está recibiendo correctamente
     if (!specialtyId && !medicId) {
@@ -34,12 +45,13 @@ export async function createQueue(req, res) {
 
     let newQueue = await Queue.create(
       {
+        name,
         specialtyId,
         medicId,
         ticketCount
       },
       {
-        fields: ["specialtyId","medicId", "ticketCount", ],
+        fields: ["name","specialtyId","medicId", "ticketCount", ],
       }
     );
     return res.json(newQueue);
@@ -70,9 +82,10 @@ export async function getQueue(req, res) {
 export const updateQueue = async (req, res) => {
   try {
     const { id } = req.params;
-    const { specialtyId, medicId, ticketCount } = req.body;
+    const { name,specialtyId, medicId, ticketCount } = req.body;
 
     const queue = await Queue.findByPk(id);
+    queue.name = name;
     queue.medicId = medicId;
     queue.specialtyId = specialtyId;
     queue.ticketCount = ticketCount;
@@ -102,7 +115,7 @@ export async function getQueueSpecialty(req, res) {
   const { id } = req.params;
   try {
     const queue = await Queue.findAll({
-      attributes: ["id", "medicId", "specialtyId", "ticketCount"],
+      attributes: ["id", "name","medicId", "specialtyId", "ticketCount"],
       where: { specialtyId: id },
     });
     res.json(queue);
@@ -115,7 +128,7 @@ export async function getQueueMedic(req, res) {
   const { id } = req.params;
   try {
     const queue = await Queue.findAll({
-      attributes: ["id", "medicId", "specialtyId", "ticketCount"],
+      attributes: ["id","name", "medicId", "specialtyId", "ticketCount"],
       where: { medicId: id },
     });
     res.json(queue);

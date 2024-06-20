@@ -5,14 +5,24 @@ import { User } from "../models/User.js"
 //ver medicos
 export async function getMedics(req, res) {
   try {
-    const medics = await Medic.findAll({
-      atributes: ["id", "name", "specialtyId", "phone", "userId", "image", "services", "certifications", "state"],
-    });
-    res.json(medics);
+      const medics = await Medic.findAll({
+          attributes: ["id", "name", "specialtyId", "phone", "userId", "image", "services", "certifications", "state"],
+          include: [{
+              model: Specialty,
+              attributes: ['name'], // Solo incluye el campo 'name' de la tabla Specialty
+              as: 'specialty'
+          },
+          {
+            model: User,
+            attributes: ['username','role'], //  de la tabla user
+            as: 'user'
+        }]
+      });
+      res.json(medics);
   } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
+      res.status(500).json({
+          message: error.message,
+      });
   }
 }
 

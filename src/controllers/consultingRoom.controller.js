@@ -6,6 +6,18 @@ export async function getConsultingRooms(req, res) {
   try {
     const consultingRooms = await ConsultingRoom.findAll({
       atributes: ["id", "number", "medicId", "specialtyId",  "location"],
+      include: [{
+        model: Specialty,
+        attributes: ['name'], // Solo incluye el campo 'name' de la tabla Specialty
+        as: 'specialty',
+    },
+    {
+      model: Medic,
+      attributes: ['name'], //  de la tabla medic
+      as: 'medic',
+    }
+  ]
+
     });
     res.json(consultingRooms);
   } catch (error) {

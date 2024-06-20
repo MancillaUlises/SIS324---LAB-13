@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
+import { Specialty } from "./Specialty.js";
 
 export const Medic = sequelize.define(
   "medics",
